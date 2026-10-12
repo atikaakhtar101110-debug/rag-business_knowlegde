@@ -1,0 +1,6 @@
+{
+  "default": ["all"],
+  "rules": [
+    {"path": "hr/*", "groups": ["hr", "admins"]}
+  ]
+}

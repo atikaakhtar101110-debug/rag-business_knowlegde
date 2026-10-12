@@ -1,0 +1,16 @@
+services:
+  rag:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      RAG_API_KEY: ${RAG_API_KEY:-}
+      RAG_ADMIN_KEY: ${RAG_ADMIN_KEY:-}
+    volumes:
+      - ./docs:/app/docs:ro      # your business documents (and acl.json)
+      - rag-data:/app/data       # index, feedback, audit log
+    restart: unless-stopped
+
+volumes:
+  rag-data:

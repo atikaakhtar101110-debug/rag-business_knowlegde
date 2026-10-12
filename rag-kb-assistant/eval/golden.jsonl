@@ -1,0 +1,7 @@
+{"question": "What is the hotel limit per night in a high-cost city?", "expected_sources": ["company-handbook.md"], "groups": []}
+{"question": "How many days after purchase must I submit an expense report?", "expected_sources": ["company-handbook.md"], "groups": []}
+{"question": "How do I reset my password?", "expected_sources": ["it-support-faq.md"], "groups": []}
+{"question": "What do I do if my laptop is stolen?", "expected_sources": ["it-support-faq.md"], "groups": []}
+{"question": "How many days of annual leave do full-time employees get?", "expected_sources": ["hr/leave-policy.md"], "groups": ["hr"]}
+{"question": "How many days of annual leave do full-time employees get?", "expected_sources": [], "groups": [], "note": "No HR group: must not retrieve the HR policy"}
+{"question": "What is the company policy on bringing pets to the office?", "expected_sources": [], "groups": [], "should_refuse": true}
