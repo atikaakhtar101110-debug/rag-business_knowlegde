@@ -66,7 +66,8 @@ class AppState:
         self.store = Store(settings.db_path)
         self.embedder = embedder or build_embedder(settings)
         self.reranker = reranker if reranker is not None else build_reranker(settings)
-        self.llm: LLM = llm or AnthropicLLM(settings.anthropic_api_key)
+        # line 69, inside AppState.__init__: the key from Settings goes to the client
+        self.llm = llm or AnthropicLLM(settings.anthropic_api_key)
         self.pipeline = Pipeline(settings, self.embedder, self.reranker, self.llm)
         self.audit = AuditLog(settings.audit_path)
         self.sync_lock = threading.Lock()
@@ -149,7 +150,7 @@ def create_app(
     async def lifespan(app: FastAPI):
         settings.data_dir.mkdir(parents=True, exist_ok=True)
         state = AppState(settings, llm, embedder, reranker)
-        app.state.rag = state
+       # lines 153-154, inside the startup (lifespan) function: warn if the key is missing
         if not settings.anthropic_api_key and llm is None:
             log.warning("ANTHROPIC_API_KEY is not set: the API will start, but /ask returns 503 until it is.")
         if not settings.rag_api_key:
@@ -165,8 +166,9 @@ def create_app(
 
     def _prepare(request: Request, req: AskRequest, user: User) -> tuple[AppState, Prepared]:
         st = _state(request)
-        if not st.llm.configured:
-            raise HTTPException(status_code=503, detail="The server has no ANTHROPIC_API_KEY configured.")
+        # line 169, inside _prepare(): block requests when there is no key
+       if not st.llm.configured:
+           raise HTTPException(status_code=503, detail="The server has no ANTHROPIC_API_KEY configured.")
         if len(st.snapshot) == 0 and st.sync_status["state"] == "running":
             raise HTTPException(status_code=503, detail="The knowledge base index is still being built. Retry shortly.")
         history = [Turn(h.role, h.content) for h in req.history]
