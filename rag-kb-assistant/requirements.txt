@@ -1,7 +1,7 @@
 fastapi>=0.115
 uvicorn[standard]>=0.30
 pydantic>=2.7
-anthropic>=0.40
+openai
 numpy>=1.26
 fastembed>=0.5
 pypdf>=5.0
