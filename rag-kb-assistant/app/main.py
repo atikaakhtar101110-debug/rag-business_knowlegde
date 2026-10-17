@@ -539,4 +539,3 @@ def create_app(
         return report
 
     return app
-```
