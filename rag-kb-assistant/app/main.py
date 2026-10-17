@@ -1,4 +1,4 @@
-```python
+
 """FastAPI application.
 
 Run:
